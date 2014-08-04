@@ -4,9 +4,9 @@ get '/' do
 end
 
 post '/play' do
-  
+  @next_board = ["X", "X", "X", "X", "X", "X", "X", "X", "X"]
   if request.xhr?
-    ["X", "X", "X", "X", "X", "X", "X", "X", "X"]
+    @next_board
   else
 
   end

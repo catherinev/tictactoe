@@ -34,9 +34,7 @@ function changeCell(){
           url: "/play",
           type: "POST",
           data: board,
-          success: function(response){
-            drawBoardFromArray(response)
-          }
+          success: drawBoardFromArray
         })
       }
     }
