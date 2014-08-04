@@ -96,10 +96,9 @@ button:active, input[type="submit"]:active{
 /* TABLE */
 
 table {
-  font-size: 12px;
+  font-size: 3em;
   background: #fff;
-  margin: 45px;
-  width: 480px;
+  margin: auto;
   border-collapse: collapse;
   text-align: left;
 }
@@ -115,6 +114,9 @@ table th {
 table td {
   color: #669;
   padding: 9px 8px 0px 8px;
+  height: 100px;
+  width: 100px;
+  text-align: center;
 }
 
 table tbody tr:hover td {
