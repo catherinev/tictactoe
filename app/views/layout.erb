@@ -19,16 +19,7 @@
 </head>
 <body>
   <header>
-    <a href="/"><h1>Title</h1></a>
-    <% if logged_in? %>
-      <a href = "/logout"><button id = "sign_out">Sign Out</button></a>
-      <!-- <a id = "new_survey_button" href = "/users/<%=current_user.id%>/surveys/create"><button>New Survey</button></a> -->
-
-    <% else %>
-    
-      <a href = "/"><button id="sign_in">Sign In</button></a>
-      <button id="create_button">Create Account</button>
-    <% end %>
+    <a href="/"><h1>Tic Tac Toe</h1></a>
   </header>
     
   <div id="page-wrap">
