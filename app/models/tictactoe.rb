@@ -7,7 +7,7 @@ class Game
   end
 
   def random_play 
-    if empty_cells.length > 0
+    unless winner
       new_play = empty_cells.sample
       board[new_play] = "O"
     end

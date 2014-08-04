@@ -15,7 +15,7 @@ describe Game do
     end
   end
 
-  describe '#finished' do
+  describe '#finished?' do
     it 'should return true if there are no empty cells' do
       game = Game.new(["X", "X", "X", "X", "X", "O", "O", "O", "O"])
       expect(game.finished?).to be true
@@ -42,6 +42,33 @@ describe Game do
     end
   end
 
+  describe '#find_winner' do
+    it 'should return X if X won' do
+      game = Game.new(["X", "X", "X", "", "X", "O", "O", "", "O"])
+      expect(game.winner).to eq("X")
+    end
+
+    it 'should return O if O won' do
+      game = Game.new(["X", "X", "O", "X", "X", "O", "", "O", "O"])
+      expect(game.winner).to eq("O")
+    end
+
+    it 'should return nil if the board is empty' do
+      game = Game.new(["", "", "", "", "", "", "", "", ""])
+      expect(game.winner).to eq(nil)
+    end
+
+    it 'should return nil if the game is not finished' do
+      game = Game.new(["X", "", "", "", "", "", "", "O", "X"])
+      expect(game.winner).to eq(nil)
+    end
+
+    it 'should return nil if the game is a tie' do
+      game = Game.new(["X", "O", "X", "O", "O", "X", "X", "X", "O"])
+      expect(game.winner).to eq(nil)
+    end
+
+  end
 
 
 end
