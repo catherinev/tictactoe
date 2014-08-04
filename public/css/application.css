@@ -1,0 +1,123 @@
+/* BODY */
+body {
+  font-family: Garamond;
+  line-height: 1.5em;
+}
+
+/* HEADER */
+header {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  background-color: #242833;
+  height: 60px;
+}
+
+header h1 {
+  margin: 0 0 0 15%;
+  padding: 20px;
+  width: 500px;
+  float: left;
+  color: white;
+}
+
+
+/* GENERAL CONTENT */
+
+#page-wrap {
+  margin: 0 auto;
+  position: relative;
+  width: 800px;
+  clear: both;
+}
+
+#errors {
+  color: red;
+  clear: both;
+  width: 450px;
+  margin: auto;
+  height: 70px;
+}
+
+input {
+	margin: 5px;
+	padding: 5px;
+}
+
+a {
+  color: #354555;
+}
+
+a:hover{
+  color: #242833;
+}
+a:visited{
+  color: #4D6A72;
+}
+
+/* INDEX PAGE */
+
+
+
+/* BUTTONS */
+button, input[type="submit"] {
+  border-top: 1px solid #9ad4e3;
+  background: #85b7c4;
+  background: -webkit-gradient(linear, left top, left bottom, from(#4d6a72), to(#85b7c4));
+  background: -webkit-linear-gradient(top, #4d6a72, #85b7c4);
+  background: -moz-linear-gradient(top, #4d6a72, #85b7c4);
+  background: -ms-linear-gradient(top, #4d6a72, #85b7c4);
+  background: -o-linear-gradient(top, #4d6a72, #85b7c4);
+  padding: 5px 10px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+  color: white;
+  font-size: 14px;
+  text-decoration: none;
+  vertical-align: middle;
+}
+button:hover, input[type="submit"]:hover {
+  border-top-color: #4b5054;
+  background: #4b5054;
+  color: #c8cbd4;
+}
+
+button:active, input[type="submit"]:active{
+  border-top-color: #4d6a72;
+  background: #4d6a72;
+}
+
+
+/* TABLE */
+
+table {
+  font-size: 12px;
+  background: #fff;
+  margin: 45px;
+  width: 480px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+table th {
+  font-size: 14px;
+  font-weight: normal;
+  color: #039;
+  padding: 10px 8px;
+  border-bottom: 2px solid #6678b1;
+}
+
+table td {
+  color: #669;
+  padding: 9px 8px 0px 8px;
+}
+
+table tbody tr:hover td {
+  color: #009;
+}
+
