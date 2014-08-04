@@ -1,25 +1,40 @@
-class Board
+class Game
+  attr_reader :board
 
   def initialize(array)
     @board = array
   end
 
   def random_play 
-    empty_elements = []
-    board.each_with_index do |element, index|
-      if element == ""
-        empty_elements << index
-      end
-    end
 
-    if empty_elements
-      new_play = empty_elements.sample
+    if empty_cells.length > 0
+      new_play = empty_cells.sample
       board[new_play] = "O"
     end
 
   end
 
-  
-  attr_reader :board
+  def finished?
+    find_winner != nil
+  end
+
+  def find_winner
+
+  end
+
+  def winner
+    
+  end
+
+  private
+  def empty_cells
+    empty_cells = []
+    board.each_with_index do |cell, index|
+      if cell == ""
+        empty_cells << index
+      end
+    end
+    empty_cells
+  end
 
 end

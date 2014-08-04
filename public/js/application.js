@@ -24,12 +24,12 @@ function changeCell(){
     },
     click: function(){
       if ($(this).html() === ""){
+        $("#get_started").hide();
         $(this).html("X");
         $(this).css({
           "background-color": "white"
         })
         var board = getBoardFromPage();
-        console.log(board)
         $.ajax({
           url: "/play",
           type: "POST",
@@ -53,8 +53,6 @@ function getBoardFromPage(){
 }
 
 function drawBoardFromArray(array){
-  console.log("response")
-  console.log(array)
   var i = 0;
   $("tr").each(function(rowNum){
     $(this).children().each(function(colNum){
