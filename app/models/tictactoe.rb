@@ -6,6 +6,7 @@ class Game
     @winner = find_winner
   end
 
+
   def random_play 
     unless winner
       new_play = empty_cells.sample
@@ -22,25 +23,59 @@ class Game
   end
 
   def find_winner
-    #check rows and columns
-    0.upto(2) do |num|
-      if row(num).join == "XXX" || col(num).join == "XXX"
+    all_lines.each do |line|
+      if line.join == "XXX"
         return "X"
-      elsif row(num).join == "OOO" || col(num).join == "OOO"
+      elsif line.join == "OOO"
         return "O"
       end
-    end
-
-    #check diagonals
-    if diag(-1) == "XXX" || diag(1) == "XXX"
-      return "X"
-    elsif diag(-1) == "OOO" || diag(1) == "OOO"
-      return "O"
     end
     nil
   end
 
+  def smart_play
+    # check if there is a way to win
+    board.empty_cells.each do |cell_num|
+      new_board = board.dup
+      new_board[cell_num] = "O" 
+      if Board.new(new_board).winner == "O"
+        return board[cell_num] = "O"
+      end
+    end
+    # block if the other player is about to win
+    board.empty_cells.each do |cell_num|
+      new_board = board.dup
+      new_board[cell_num] = "X"
+      if Board.new(new_board).winner == "X"
+        return board[cell_num] = "O"
+      end
+    end
+
+    # pick option that gives opponent least ways to win
+  
+  end
+
+  def count_ways_to_win(player)
+    count = 0
+    case player
+    when "X"
+      all_lines.each do |line|
+        unless line.include?("O")
+          count += 1
+        end
+      end
+    when "O"
+      all_lines.each do |line|
+        unless line.include?("X")
+          count += 1
+        end
+      end
+    end
+    count
+  end
+
   private
+
   def empty_cells
     empty_cells = []
     board.each_with_index do |cell, index|
@@ -51,34 +86,29 @@ class Game
     empty_cells
   end
 
-  def row(num)
-    row = []
-    board.each_with_index do |cell, index|
-      if (index / 3) == num
-        row << cell
-      end
-    end
-    row
+  def rows
+    board.each_slice(3).to_a
   end
 
-  def col(num)
-    col = []
-    board.each_with_index do |cell, index|
-      if (index % 3) == num
-        col << cell
-      end
-    end
-    col
+  def cols
+    rows.transpose
   end
 
-  def diag(num)
-    #num can be 1 for positive or -1 for negative
-    case num
-    when -1
-      return board[0] + board[4] + board[8]
-    when 1
-      return board[2] + board[4] + board[6]
-    end
+  def diags
+    diags = []
+    diags << [board[0] + board[4] + board[8]]
+    diags << [board[2] + board[4] + board[6]]
   end
+
+  def all_lines
+    rows + cols + diags
+  end
+
+  def corners
+    [0, 2, 6, 8]
+  end
+
+  
+  
 
 end

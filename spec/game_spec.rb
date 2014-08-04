@@ -67,7 +67,6 @@ describe Game do
       game = Game.new(["X", "O", "X", "O", "O", "X", "X", "X", "O"])
       expect(game.winner).to eq(nil)
     end
-
   end
 
 
