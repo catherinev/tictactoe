@@ -123,7 +123,13 @@ table td {
   text-align: center;
 }
 
-table tbody tr:hover td {
+/*table tbody tr:hover td {
   color: #009;
-}
+}*/
+
+/*table td:hover{
+  background-color: #009;
+}*/
+
+
 
