@@ -13,7 +13,11 @@ class Game
   end
 
   def finished?
-    find_winner != nil
+    if empty_cells.length == 0
+      return true
+    else
+      return winner != nil
+    end   
   end
 
   def find_winner
