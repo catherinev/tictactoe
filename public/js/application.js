@@ -33,7 +33,7 @@ function changeCell(){
         $.ajax({
           url: "/play",
           type: "POST",
-          data: board,
+          data: {board: board},
           success: drawBoardFromArray
         })
       }
