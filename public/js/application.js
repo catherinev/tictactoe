@@ -33,6 +33,7 @@ function changeCell(){
         $.ajax({
           url: "/play",
           type: "POST",
+          dataType: "JSON",
           data: {board: board},
           success: drawBoardFromArray
         })
@@ -52,6 +53,8 @@ function getBoardFromPage(){
 }
 
 function drawBoardFromArray(array){
+  console.log("response")
+  console.log(array)
   var i = 0;
   $("tr").each(function(rowNum){
     $(this).children().each(function(colNum){
