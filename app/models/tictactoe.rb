@@ -22,8 +22,22 @@ class Game
   end
 
   def find_winner
-    
+    #check rows and columns
+    0.upto(2) do |num|
+      if row(num).join == "XXX" || col(num).join == "XXX"
+        return "X"
+      elsif row(num).join == "OOO" || col(num).join == "OOO"
+        return "O"
+      end
+    end
 
+    #check diagonals
+    if diag(-1) == "XXX" || diag(1) == "XXX"
+      return "X"
+    elsif diag(-1) == "OOO" || diag(1) == "OOO"
+      return "O"
+    end
+    nil
   end
 
   private
@@ -50,7 +64,7 @@ class Game
   def col(num)
     col = []
     board.each_with_index do |cell, index|
-      if (index / 3) == num
+      if (index % 3) == num
         col << cell
       end
     end
