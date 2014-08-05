@@ -25,6 +25,17 @@ header h1 {
   text-align: center;
 }
 
+#winner {
+  width: 320px;
+  height: 400px;
+  color: #009;
+  font-size: 3em;
+  position: absolute;
+  top: 90px;
+  width: 100%;
+  text-align: center;
+}
+
 
 /* GENERAL CONTENT */
 

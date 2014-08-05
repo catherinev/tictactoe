@@ -10,7 +10,7 @@ class Game
 # qualities of current state of the board ****************************
   def finished?
     return true if empty_cells.length == 0
-    winner != nil 
+    find_winner != nil 
   end
 
   def find_winner
@@ -138,8 +138,7 @@ class Game
       test_board[cell_num] = "X"
       test_game = Game.new(test_board)
       if test_game.forks?("X")
-        remaining_cells = empty_cells.select{|num| num != cell_num}
-        remaining_cells.each do |cell_num2|
+        empty_cells.each do |cell_num2|
           second_test_board = board.dup
           second_test_board[cell_num2] = "O"
           second_test_game = Game.new(second_test_board)

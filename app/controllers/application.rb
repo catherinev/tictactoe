@@ -8,10 +8,9 @@ post '/play' do
   @game = Game.new(params[:board])
   
   @game.smart_play
-  # puts @game.board
 
   if request.xhr?
-    @game.board.to_json
+    {board: @game.board, finished: @game.finished?, winner: @game.find_winner}.to_json
   else
 
   end

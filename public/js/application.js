@@ -1,15 +1,10 @@
 $(document).ready(function() {
-	changeCell();
-  computerStarts();
-  // This is called after the document has loaded in its entirety
-  // This guarantees that any elements we bind to will exist on the page
-  // when we try to bind to them
-  // See: http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
-});
+	changeCellColorOnHover();
+  playGame();
+  computerPlaysFirst();
+ });
 
-
-
-function changeCell(){
+function changeCellColorOnHover(){
   $("td").on({
     mouseenter: function () {
       if ($(this).html() === ""){
@@ -22,25 +17,33 @@ function changeCell(){
       $(this).css({
         "background-color": "white"
       })
-    },
-    click: function(){
-      if ($(this).html() === ""){
-        $("#get_started").hide();
-        $(this).html("X");
-        $(this).css({
-          "background-color": "white"
-        })
-        var board = getBoardFromPage();
-        $.ajax({
-          url: "/play",
-          type: "POST",
-          dataType: "JSON",
-          data: {board: board},
-          success: drawBoardFromArray
-        })
-      }
     }
   });
+}
+
+function playGame(){
+  $('td').on('click', function(){
+    if ($(this).html() === ""){
+      $(".get_started").hide();
+      $(this).html("X");
+      $(this).css({
+        "background-color": "white"
+      })
+      var board = getBoardFromPage();
+      $.ajax({
+        url: "/play",
+        type: "POST",
+        dataType: "JSON",
+        data: {board: board},
+        success: function(response){
+          drawBoardFromArray(response.board)
+          if (response.finished){
+            declareWinner(response.winner);
+          }
+        }
+      })
+    }
+  })
 }
 
 function getBoardFromPage(){
@@ -63,9 +66,23 @@ function drawBoardFromArray(array){
   })
 }
 
-function computerStarts(){
+function computerPlaysFirst(){
   $("button").on('click', function(){
+    $(".get_started").hide();
     drawBoardFromArray(["", "", "", "", "O", "", "", "", ""])
   })
 }
 
+function declareWinner(winner){
+  if (winner === "O"){
+    var new_div = "<div id='winner'>Computer wins!</div>"
+    
+  } else if(winner === "X"){
+    var new_div = "<div id='winner'>You win!</div>"
+  } else{
+    var new_div = "<div id='winner'>Game over -- no winner.</div>"
+  }
+  $("body").append(new_div)
+  var playAgain = "<div class='get_started'><a href='/'><button>Play again</button></a></div>"
+  $("body").append(playAgain)
+}
