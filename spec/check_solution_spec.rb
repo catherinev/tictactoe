@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative '../app/models/tictactoe'
 
 describe 'Check that computer always wins' do
 
