@@ -6,14 +6,12 @@ ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
 
 # Require gems we care about
-require 'rubygems'
+# require 'rubygems'
 
-require 'uri'
-require 'pathname'
+# require 'uri'
+# require 'pathname'
+require 'json'
 
-require 'pg'
-require 'active_record'
-require 'logger'
 
 require 'sinatra'
 require "sinatra/reloader" if development?
@@ -39,7 +37,4 @@ end
 
 # Set up the controllers and helpers
 Dir[APP_ROOT.join('app', 'controllers', '*.rb')].each { |file| require file }
-Dir[APP_ROOT.join('app', 'helpers', '*.rb')].each { |file| require file }
 
-# Set up the database and models
-require APP_ROOT.join('config', 'database')
