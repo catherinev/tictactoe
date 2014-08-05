@@ -4,16 +4,10 @@ class Game
   def initialize(array)
     @board = array
     @winner = find_winner
+    # 'O' is the computer
   end
 
-
-  def random_play 
-    unless winner
-      new_play = empty_cells.sample
-      board[new_play] = "O"
-    end
-  end
-
+# qualities of current state of the board ****************************
   def finished?
     if empty_cells.length == 0
       return true
@@ -33,8 +27,25 @@ class Game
     nil
   end
 
+  def forks?(player = "O")
+    num_pairs = 0
+    all_lines.each do |line|
+      if line.join == player + player
+        num_pairs += 1
+      end
+    end
+    num_pairs > 1
+  end
+
+  def random_play(player = "O")
+    unless finished?
+      new_play = empty_cells.sample
+      board[new_play] = player
+    end
+  end  
+
   def smart_play
-    unless winner
+    unless finished?
       if winning_cell
         return board[winning_cell] = "O"
       elsif cell_to_block
@@ -43,72 +54,32 @@ class Game
         return board[look_for_fork] = "O"
       elsif block_fork
         return board[block_fork] = "O"
-      elsif corner
-        return board[corner] = "O"
+      elsif center_available?
+        return board[4] = "O"
+      elsif opposite_corner_play
+        return board[opposite_corner_play] = "O"
+      elsif corner_play
+        return board[corner_play] = "O"
       else
-        return board[least_options_to_opponent] = "O"
+        return random_play
       end
     end
   end
 
-  def almost_win
+  # helper methods that need to be public**********
+  
+  def winning_cell # does this need to be public? => yes, see #block_fork
     empty_cells.each do |cell_num|
-      test_board = board.dup
-      test_board[cell_num] = "O"
-      test_game = Game.new(test_board)
-      if test_game.winner == "O"
+      new_board = board.dup
+      new_board[cell_num] = "O" 
+      if Game.new(new_board).winner == "O"
         return cell_num
       end
     end
-    false
+    nil
   end
 
-  def num_ways_to_win(player)
-    count = 0
-    p all_lines
-    case player
-    when "X"
-      all_lines.each do |line|
-        unless line.include?("O")
-          p line
-          count += 1
-        end
-      end
-    when "O"
-      all_lines.each do |line|
-        unless line.include?("X")
-          count += 1
-        end
-      end
-    end
-    count
-  end
-
-  def look_for_fork(player = "O")
-    puts "fork" + player
-    opponent = player == "O" ? "X" : "O"
-    puts opponent
-    empty_cells.each do |cell_num|
-      test_board = board.dup
-      test_board[cell_num] = player
-      test_game = Game.new(test_board)
-      num_almost_wins = 0
-      all_lines.each do |line|
-        if line.join == opponent + opponent
-          num_almost_wins += 1
-        end
-      end
-      if num_almost_wins > 1
-        return cell_num
-      end
-    end
-    false
-  end
-
-  def all_lines
-    rows + cols + diags
-  end
-
+# ************************************************
   private
 
   def empty_cells
@@ -135,20 +106,14 @@ class Game
     diags << [board[2], board[4], board[6]]
   end
 
+  def all_lines
+    rows + cols + diags
+  end
+# *******************************************
+
   
 
-  def winning_cell
-    empty_cells.each do |cell_num|
-      new_board = board.dup
-      new_board[cell_num] = "O" 
-      if Game.new(new_board).winner == "O"
-        return cell_num
-      end
-    end
-    nil
-  end
-
-  def corner
+  def opposite_corner_play
     corner_options = []
     corner_options << ["X", "", "", "", "", "", "", "", ""]
     corner_options << ["", "", "X", "", "", "", "", "", ""]
@@ -158,6 +123,16 @@ class Game
       return nil
     end
     return (8 - board.index("X"))
+  end
+
+  def corner_play
+    if empty_cells.include?(4)
+      return 4
+    end
+    available_corners = empty_cells & [0, 2, 6, 8]
+    if available_corners
+      return available_corners[0]
+    end
   end
 
   def cell_to_block
@@ -171,67 +146,43 @@ class Game
     nil
   end
 
-  def least_options_to_opponent
-    # we want cell rank to be as low as possible -- it measures how many options the opponent will have if that space is played (sort of)
-    cell_ranks = {}
-
-    empty_cells.each do |cell_num|
-      test_board = board.dup
-      test_board[cell_num] = "O"
-
-      test_game = Game.new(test_board)
-      cell_ranks[cell_num] = test_game.num_ways_to_win("X")
-    end
-
-    min = cell_ranks.values.min
-    top_options = cell_ranks.select{|cell_num, frequency| frequency == min}# any options with the minimum
-
-    top_options.each do |cell|
-      cell_num = cell[0]
-      if rows[cell_num / 3].include?("X")
-        cell_ranks[cell_num] -= 1
-      end
-
-      if cols[cell_num % 3].include?("X")
-        cell_ranks[cell_num] -= 1
-      end
-
-      if [0,4,8].include?(cell_num)
-        if diags[0].include?("X")
-          cell_ranks[cell_num] -= 1
-        end
-      end
-
-      if [2,4,6].include?(cell_num)
-        if diags[1].include?("X")
-          cell_ranks[cell_num] -= 1
-        end
-      end
-    end
-
-    min = cell_ranks.values.min
-    top_options = cell_ranks.select{|cell_num, frequency| frequency == min}# any options with the minimum
-    p top_options.keys
-
-    best_cell = top_options.keys.sample
-  end
-
-  
-
   def block_fork
     empty_cells.each do |cell_num|
       test_board = board.dup
-      test_board[cell_num] = "O"
+      test_board[cell_num] = "X"
       test_game = Game.new(test_board)
-      if test_game.almost_win
-        unless test_game.look_for_fork("X")
-          return test_game.almost_win
+      if test_game.forks?("X")
+        # is there a way to force a different play?
+        remaining_cells = empty_cells.select{|num| num != cell_num}
+        remaining_cells.each do |cell_num2|
+          second_test_board = board.dup
+          second_test_board[cell_num2] = "O"
+          second_test_game = Game.new(second_test_board)
+          if second_test_game.winning_cell && second_test_game.winning_cell != cell_num
+            return cell_num2
+          end
         end
       end
     end
     false
   end
 
-  
+  def center_available?
+    empty_cells.include?(4)
+  end
+
+  def look_for_fork(player = "O")
+    opponent = player == "O" ? "X" : "O"
+    empty_cells.each do |cell_num|
+      test_board = board.dup
+      test_board[cell_num] = player
+      test_game = Game.new(test_board)
+
+      if test_game.forks?(player)
+        return cell_num
+      end
+    end
+    false
+  end
 
 end

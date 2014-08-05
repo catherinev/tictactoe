@@ -9,7 +9,7 @@ post '/play' do
   @game = Game.new(params[:board])
   
   @game.smart_play
-  puts @game.board
+  # puts @game.board
 
   if request.xhr?
     @game.board.to_json
