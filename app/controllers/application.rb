@@ -8,7 +8,8 @@ end
 post '/play' do
   @game = Game.new(params[:board])
   
-  @game.random_play
+  @game.smart_play
+  puts @game.board
 
   if request.xhr?
     @game.board.to_json
