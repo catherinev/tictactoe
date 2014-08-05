@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	changeCell();
+  computerStarts();
   // This is called after the document has loaded in its entirety
   // This guarantees that any elements we bind to will exist on the page
   // when we try to bind to them
@@ -59,6 +60,12 @@ function drawBoardFromArray(array){
       $(this).html(array[i]);
       i += 1;
     })
+  })
+}
+
+function computerStarts(){
+  $("button").on('click', function(){
+    drawBoardFromArray(["", "", "", "", "O", "", "", "", ""])
   })
 }
 

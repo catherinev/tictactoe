@@ -1,7 +1,6 @@
 require_relative '../models/tictactoe'
 
 get '/' do
-
   erb :index
 end
 

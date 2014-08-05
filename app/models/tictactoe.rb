@@ -9,20 +9,14 @@ class Game
 
 # qualities of current state of the board ****************************
   def finished?
-    if empty_cells.length == 0
-      return true
-    else
-      return winner != nil
-    end   
+    return true if empty_cells.length == 0
+    winner != nil 
   end
 
   def find_winner
     all_lines.each do |line|
-      if line.join == "XXX"
-        return "X"
-      elsif line.join == "OOO"
-        return "O"
-      end
+      return "X" if line.join == "XXX"
+      return "O" if line.join == "OOO"     
     end
     nil
   end
@@ -109,26 +103,18 @@ class Game
   def all_lines
     rows + cols + diags
   end
-# *******************************************
-
-  
+# *******************************************  
 
   def opposite_corner_play
-    corner_options = []
-    corner_options << ["X", "", "", "", "", "", "", "", ""]
-    corner_options << ["", "", "X", "", "", "", "", "", ""]
-    corner_options << ["", "", "", "", "", "", "X", "", ""]
-    corner_options << ["", "", "", "", "", "", "", "", "X"]
-    unless corner_options.include?(board)
-      return nil
-    end
-    return (8 - board.index("X"))
+    corner_options = [["X", "", "", "", "", "", "", "", ""],
+                      ["", "", "X", "", "", "", "", "", ""],
+                      ["", "", "", "", "", "", "X", "", ""],
+                      ["", "", "", "", "", "", "", "", "X"]]
+    return nil unless corner_options.include?(board)
+    (8 - board.index("X"))
   end
 
   def corner_play
-    if empty_cells.include?(4)
-      return 4
-    end
     available_corners = empty_cells & [0, 2, 6, 8]
     if available_corners
       return available_corners[0]
@@ -152,7 +138,6 @@ class Game
       test_board[cell_num] = "X"
       test_game = Game.new(test_board)
       if test_game.forks?("X")
-        # is there a way to force a different play?
         remaining_cells = empty_cells.select{|num| num != cell_num}
         remaining_cells.each do |cell_num2|
           second_test_board = board.dup
@@ -184,5 +169,4 @@ class Game
     end
     false
   end
-
 end
