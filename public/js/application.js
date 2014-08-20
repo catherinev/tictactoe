@@ -53,7 +53,7 @@ function getBoardFromPage(){
       board.push($(this).html());
     })
   })
-  return board
+  return board;
 }
 
 function drawBoardFromArray(array){
@@ -75,14 +75,13 @@ function computerPlaysFirst(){
 
 function declareWinner(winner){
   if (winner === "O"){
-    var new_div = "<div id='winner'>Computer wins!</div>"
-    
-  } else if(winner === "X"){
-    var new_div = "<div id='winner'>You win!</div>"
-  } else{
-    var new_div = "<div id='winner'>Game over -- no winner.</div>"
+    var new_div = "<div id='winner'>Computer wins!</div>";
+  } else if (winner === "X"){
+    var new_div = "<div id='winner'>You win!</div>";
+  } else {
+    var new_div = "<div id='winner'>Game over -- no winner.</div>";
   }
-  $("body").append(new_div)
-  var playAgain = "<div class='get_started'><a href='/'><button>Play again</button></a></div>"
-  $("body").append(playAgain)
+  $("body").append(new_div);
+  var playAgain = "<div class='get_started'><a href='/'><button>Play again</button></a></div>";
+  $("body").append(playAgain);
 }

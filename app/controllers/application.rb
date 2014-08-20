@@ -6,12 +6,6 @@ end
 
 post '/play' do
   @game = Game.new(params[:board])
-  
   @game.smart_play
-
-  if request.xhr?
-    {board: @game.board, finished: @game.finished?, winner: @game.find_winner}.to_json
-  else
-
-  end
+  {board: @game.board, finished: @game.finished?, winner: @game.find_winner}.to_json
 end
