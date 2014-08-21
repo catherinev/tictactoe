@@ -1,20 +1,16 @@
-> **Note**: This branch (master) contains a skeleton without any app code, perfect for creating a _new_ application or challenge.
+##README
 
-### Purpose
-The Sinatra Skeleton:
+### TicTacToe
+This is an unbeatable TicTacToe game built in Sinatra.  
 
-1. Provides a foundation for building challenges or creating a new Sinatra application.
-2. Demonstrates a reasonable set of practices around building Sinatra applications.
-3. Eases the transition to Rails for Dev Bootcamp students
+####To run it on your localhost:
 
-### Quickstart
+1. Clone this repo to your computer
+2. Run ``shotgun`` from the root directory
+3. Open [http://localhost:9393/](http://localhost:9393/) in your browser
 
-1.  `bundle install`
-2.  `shotgun config.ru`
+Important note: This application requires Ruby 2.0.0 and Sinatra, in addition to a few gems (which can be viewed in the gemfile).  You will also need RSpec to run the test suite.  You can install many of these simply by running ``bundle`` from the root directory.
 
-As needed, create models & migrations with the `rake` tasks:
+####Running the tests
 
-```
-rake generate:migration  # Create an empty migration in db/migrate, e.g., rake generate:migration NAME=create_tasks
-rake generate:model      # Create an empty model in app/models, e.g., rake generate:model NAME=User
-```
+As previously mentioned, you will need RSpec to run the test suite.  Assuming you have already bundled, you should be able to run all the tests with ``rspec spec``.

@@ -83,7 +83,6 @@ class Player
     play_cell(cell_num)
   end
 
-
   def smart_play
     cell_num = nil
       if find_winning_cells != []

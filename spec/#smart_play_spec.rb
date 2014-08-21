@@ -1,6 +1,6 @@
 require_relative '../app/models/tictactoe'
 
-describe 'Check that computer always wins' do
+describe 'Check that computer always wins when using #smart_play' do
   before(:each) do
     @player1 = Player.new("X")
     @player2 = Player.new("O")
