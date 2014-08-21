@@ -87,28 +87,20 @@ class Player
   def smart_play
     cell_num = nil
       if find_winning_cells != []
-        puts "win"
         cell_num = find_winning_cells.first       
       elsif opponent.find_winning_cells != []
-        puts "block"
         cell_num = opponent.find_winning_cells.first
       elsif find_forks != []
-        puts "fork"
         cell_num = find_forks.first
       elsif opponent.find_forks != []
-        puts "block fork"
         cell_num = block_fork(opponent.find_forks)
       elsif game_board.center_available?
-        puts "center"
         cell_num = 4
       elsif opponent.find_opposite_corner
-        puts "opp corner"
         cell_num = opponent.find_opposite_corner
       elsif game_board.available_corners != []
         cell_num = game_board.available_corners.sample
-        puts "corner"
       else
-        puts "random"
         return random_play
       end
     return play_cell(cell_num)

@@ -3,7 +3,7 @@ require_relative '../app/models/tictactoe'
 describe 'Check that computer always wins' do
   before(:each) do
     @player1 = Player.new("X")
-    @player2 = Player.new("O") # computer
+    @player2 = Player.new("O")
   end
 
   describe "when starting position is corner" do

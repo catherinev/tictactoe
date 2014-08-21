@@ -1,9 +1,9 @@
 require_relative '../app/models/tictactoe'
 
-describe 'Check that computer always wins again smart opponent' do
+describe 'when both players are smart, game always wins in a tie' do
   before(:each) do
     @player1 = Player.new("X")
-    @player2 = Player.new("O") # computer
+    @player2 = Player.new("O")
   end
 
   describe "when starting position is corner" do
@@ -14,7 +14,7 @@ describe 'Check that computer always wins again smart opponent' do
         @player2.smart_play
         @player1.smart_play
       end
-      expect(game.winning_marker).to_not eq("X")
+      expect(game.winning_marker).to be nil
     end
 
     it 'should win when opponent starts with position 2' do
@@ -24,7 +24,7 @@ describe 'Check that computer always wins again smart opponent' do
         @player2.smart_play
         @player1.smart_play
       end
-      expect(game.winning_marker).to_not eq("X")
+      expect(game.winning_marker).to be nil
     end
 
     it 'should win when opponent starts with position 6' do
@@ -34,7 +34,7 @@ describe 'Check that computer always wins again smart opponent' do
         @player2.smart_play
         @player1.smart_play
       end
-      expect(game.winning_marker).to_not eq("X")
+      expect(game.winning_marker).to be nil
     end
 
     it 'should win when opponent starts with position 8' do
@@ -44,7 +44,7 @@ describe 'Check that computer always wins again smart opponent' do
         @player2.smart_play
         @player1.smart_play
       end
-      expect(game.winning_marker).to_not eq("X")
+      expect(game.winning_marker).to be nil
     end
   end
 
@@ -56,7 +56,7 @@ describe 'Check that computer always wins again smart opponent' do
         @player2.smart_play
         @player1.smart_play
       end
-      expect(game.winning_marker).to_not eq("X")
+      expect(game.winning_marker).to be nil
     end
   end
 
@@ -69,7 +69,7 @@ describe 'Check that computer always wins again smart opponent' do
         @player2.smart_play
         @player1.smart_play
       end
-      expect(game.winning_marker).to_not eq("X")
+      expect(game.winning_marker).to be nil
     end
 
     it 'should win when opponent starts with position 3' do
@@ -79,7 +79,7 @@ describe 'Check that computer always wins again smart opponent' do
         @player2.smart_play
         @player1.smart_play
       end
-      expect(game.winning_marker).to_not eq("X")
+      expect(game.winning_marker).to be nil
     end
 
     it 'should win when opponent starts with position 5' do
@@ -89,7 +89,7 @@ describe 'Check that computer always wins again smart opponent' do
         @player2.smart_play
         @player1.smart_play
       end
-      expect(game.winning_marker).to_not eq("X")
+      expect(game.winning_marker).to be nil
     end
 
     it 'should win when opponent starts with position 7' do
@@ -99,7 +99,7 @@ describe 'Check that computer always wins again smart opponent' do
         @player2.smart_play
         @player1.smart_play
       end
-      expect(game.winning_marker).to_not eq("X")
+      expect(game.winning_marker).to be nil
     end
   end  
 end
