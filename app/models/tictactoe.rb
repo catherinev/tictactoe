@@ -30,75 +30,6 @@ class TicTacToeBoard
     empty_cells.include?(4)
   end
 
-  # def winning_cell(player_marker)
-  #   empty_cells.each do |cell_num|
-  #     lines_that_contain_cell(cell_num).each do |line|
-  #       if line.join == player_marker + player_marker
-  #         return cell_num
-  #       end
-  #     end
-  #   end
-  #   nil
-  # end
-
-  # def forks(player_marker)
-  #   forks = []
-  #   cells = []
-  #   board.each_with_index do |cell, index|
-  #     if cell == player_marker
-  #       cells << index
-  #     end
-  #   end
-
-  #   cells.each do |cell|
-  #     count = 0
-  #     lines_that_contain_cell(cell).each do |line|
-  #       count +=1 if line.join == player_marker + player_marker
-  #     end
-  #     if count > 1
-  #       forks << cells
-  #     end    
-  #   end
-  #   forks
-  # end
-  
-  # def opposite_corner_available(player_marker)
-  #   available_corners.each do |cell_num|
-  #     if board[8 - cell_num] == player_marker
-  #       return cell_num
-  #     end
-  #   end
-  #   nil
-  # end
-
-  # def cell_to_block(player = "O")
-  #   opponent = player == "O" ? "X" : "O"
-  #   empty_cells.each do |cell_num|
-  #     new_board = board.dup
-  #     new_board[cell_num] = opponent
-  #     if Game.new({board: new_board}).winner == opponent
-  #       return cell_num
-  #     end
-  #   end
-  #   nil
-  # end
-
-  
-
-  # def look_for_fork(player = "O")
-  #   opponent = player == "O" ? "X" : "O"
-  #   empty_cells.each do |cell_num|
-  #     test_board = board.dup
-  #     test_board[cell_num] = player
-  #     test_game = Game.new({board: test_board})
-
-  #     unless test_game.forks?(player).empty?
-  #       return cell_num
-  #     end
-  #   end
-  #   false
-  # end
-
   def lines_that_contain_cell(cell_num)
     row = rows[cell_num / 3]
     col = cols[cell_num % 3]
@@ -152,14 +83,9 @@ class Player
     play_cell(cell_num)
   end
 
-  # def find_opponent
-  #   Player.new((game_board.board - [marker]).flatten.first)
-  # end
 
   def smart_play
-    # opponent = find_opponent
     cell_num = nil
-    # unless game_board.finished?
       if find_winning_cells != []
         puts "win"
         cell_num = find_winning_cells.first       
@@ -202,26 +128,6 @@ class Player
     winning_cells
   end
 
-  # def find_forks
-  #   forks = []
-  #   cells = []
-  #   game_board.board.each_with_index do |cell, index|
-  #     if cell == marker
-  #       cells << index
-  #     end
-  #   end
-
-  #   cells.each do |cell|
-  #     count = 0
-  #     game_board.lines_that_contain_cell(cell).each do |line|
-  #       count +=1 if line.join == marker + marker
-  #     end
-  #     if count > 1
-  #       forks << cell
-  #     end    
-  #   end
-  #   forks
-  # end
   def find_forks
     forks = []
     game_board.empty_cells.each do |cell|
@@ -246,39 +152,6 @@ class Player
     nil
   end
 
-  # def block_fork
-  #   game_board.empty_cells.each do |cell_num|
-  #     test_board = game_board.board.dup
-  #     test_board[cell_num] = opponent
-  #     test_game = Game.new({board: test_board})
-  #     unless test_game.forks(opponent).empty?
-  #       puts 'blah'
-  #       empty_cells.each do |cell_num2|
-  #         remaining_cells = empty_cells.select{|cell| cell != cell_num2}
-
-  #         second_test_board = board.dup
-  #         second_test_board[cell_num2] = player
-  #         second_test_game = Game.new({board: second_test_board})
-
-  #         possible = true
-
-  #         remaining_cells.each do |cell|
-  #           third_test_board = second_test_board.dup
-  #           third_test_board[cell] = opponent
-  #           third_test_game = Game.new({board: third_test_board})
-  #           unless third_test_game.forks(opponent).empty?
-  #             possible = false unless third_test_game.winning_cell(player)
-  #           end
-  #         end
-
-  #         if possible
-  #           return cell_num2
-  #         end
-  #       end
-  #     end
-  #   end
-  #   false
-  # end
   def block_fork(cells_to_block)
     game_board.empty_cells.each do |cell|
       hypothetical_board = TicTacToeBoard.new(game_board.board.dup)
@@ -327,7 +200,5 @@ class TicTacToeGame
     end
     nil
   end
-
-  # valid play?
 
 end
