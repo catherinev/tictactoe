@@ -2,24 +2,91 @@ require_relative '../app/models/tictactoe'
 
 describe Player do
   before(:each) do
-    @unfinished_game = TicTacToeGame.new({board: TicTacToeBoard.new(["X", "X", "X", "", "", "", "", "O", "O"]), player1: Player.new("X"), player2: Player.new("O")})
-    @game_that_x_won = TicTacToeGame.new({board: TicTacToeBoard.new(["X", "X", "X", "", "X", "O", "O", "", "O"]), player1: Player.new("X"), player2: Player.new("O")})
-    @game_that_o_won = TicTacToeGame.new({board: TicTacToeBoard.new(["X", "X", "O", "X", "X", "O", "", "O", "O"]), player1: Player.new("X"), player2: Player.new("O")})
-    @tied_game = TicTacToeGame.new({board: TicTacToeBoard.new(["X", "O", "X", "O", "O", "X", "X", "X", "O"]), player1: Player.new("X"), player2: Player.new("O")})
+    @player1 = Player.new("X")
+    @player2 = Player.new("O")
+    @new_board = TicTacToeBoard.new(["", "", "", "", "", "", "", "", ""])
+    @unfinished_board = TicTacToeBoard.new(["X", "X", "X", "", "", "", "", "O", "O"])
+    @board_that_x_won = TicTacToeBoard.new(["X", "X", "X", "", "X", "O", "O", "", "O"])
+    @board_that_o_won = TicTacToeBoard.new(["X", "X", "O", "X", "X", "O", "", "O", "O"])
+    @tied_board = TicTacToeBoard.new(["X", "O", "X", "O", "O", "X", "X", "X", "O"])
   end
 
-  # describe '#random_play' do
-  #   it 'should not change existing elements on the board' do
-  #     game = Game.new({board: ["", "", "", "","X","","","",""]})
-  #     expect{ game.random_play }.to_not change{game.board[4]}
-  #   end
+  describe "#play_cell" do
+    before(:each) do
+      @example_board = @unfinished_board
+      @game = TicTacToeGame.new({board: @example_board, player1: @player1, player2: @player2})
+    end
+    it "should update the given cell on the given board with the player's marker if the cell is available" do
+      @player2.play_cell(4)
+      expect(@example_board.board).to eq ["X", "X", "X", "", "O", "", "", "O", "O"]
+    end
+    it "should not change the board if the given cell is unavailable" do
+      expect{@player1.play_cell(0)}.to_not change{@example_board.board}
+    end
+  end
 
-  #   it 'should add an \'O\' to the board' do
-  #     game = Game.new({board: ["X", "", "", "","","","","",""]})
-  #     game.random_play
-  #     expect(game.board).to include("O")
-  #   end
-  # end
 
+  describe '#random_play' do
+    it 'should not change existing elements on the board' do
+      example_board = @unfinished_board
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect{ @player1.random_play}.to_not change{example_board.board[0]}
+    end
+
+    it 'should add a marker to the board' do
+      example_board = @new_board
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      @player1.random_play
+      expect(@new_board.board).to include("X")
+    end
+  end
+
+  describe '#find_winning_cell' do
+    it 'should return the number of the cell a player can play to immediately win' do
+      example_board = TicTacToeBoard.new(["X", "X", "", "", "", "", "", "O", "O"])
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect(@player1.find_winning_cell).to be 2
+      expect(@player2.find_winning_cell).to be 6
+    end
+
+    it 'should return nil if there is no winning cell' do
+      example_board = @new_board
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect(@player1.find_winning_cell).to be nil
+      expect(@player2.find_winning_cell).to be nil
+    end
+  end
+
+  describe '#find_forks' do
+    it 'should return an array with the cell numbers of all cells that are in multiple lines that contain winning cells' do
+      example_board = TicTacToeBoard.new(["X", "", "X", "", "O", "", "O", "", "X"])
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect(@player1.find_forks).to eq [2]
+    end
+    it 'should return an array with the cell numbers of all cells that are in multiple lines that contain winning cells (part 2)' do
+      example_board = TicTacToeBoard.new(["O", "O", "", "X", "O", "", "", "", "X"])
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect(@player2.find_forks).to eq [1]
+    end
+    it 'should return an empty array when there are no such forks' do
+      example_board = @unfinished_board
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect(@player2.find_forks).to eq []
+    end
+  end
+
+  describe '#find_opposite_corner' do
+    it 'should return the cell number of a corner opposite from a corner containing the player\'s marker' do
+      example_board = TicTacToeBoard.new(["X", "", "", "", "", "", "", "", ""])
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect(@player1.find_opposite_corner).to eq 8
+    end
+
+    it 'should return nil if there are no corners available opposite a corner containing the player\'s marker' do
+      example_board = TicTacToeBoard.new(["X", "", "O", "", "", "", "O", "", "X"])
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect(@player1.find_opposite_corner).to eq nil
+    end
+  end
 
 end

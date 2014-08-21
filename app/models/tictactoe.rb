@@ -148,10 +148,8 @@ class Player
   end
 
   def random_play
-    unless game.finished?
-      cell_num = game.empty_cells.sample
-      play_cell(cell_num)
-    end
+    cell_num = game.empty_cells.sample
+    play_cell(cell_num)
   end
 
   def smart_play
@@ -190,7 +188,7 @@ class Player
   def find_winning_cell
     game.empty_cells.each do |cell_num|
       game.lines_that_contain_cell(cell_num).each do |line|
-        if line.join == player_marker + player_marker
+        if line.join == marker + marker
           return cell_num
         end
       end
@@ -210,10 +208,10 @@ class Player
     cells.each do |cell|
       count = 0
       game.lines_that_contain_cell(cell).each do |line|
-        count +=1 if line.join == player_marker + player_marker
+        count +=1 if line.join == marker + marker
       end
       if count > 1
-        forks << cells
+        forks << cell
       end    
     end
     forks
@@ -265,23 +263,24 @@ class Player
 end
 
 class TicTacToeGame 
-  attr_reader :winner
+  attr_reader :winner, :game_board
   def initialize(args)
-    @gameBoard = args[:board]
+    @game_board = args[:board]
     @player1 = args[:player1]
     @player2 = args[:player2]
     @player1.opponent, @player2.opponent = @player2, @player1
-    @player1.game, @player2.game = @gameBoard
+    @player1.game = @game_board
+    @player2.game = @game_board
     @winner = find_winner
   end
 
   def finished?
-    return true if gameBoard.empty_cells.length == 0
+    return true if game_board.empty_cells.length == 0
     find_winner != nil 
   end
 
   def find_winner
-    gameBoard.all_lines.each do |line|
+    game_board.all_lines.each do |line|
       unless line.join.scan(/((.)\2{2})/) == []
         return line.join.gsub(/((.)\2{2})/, '\2')
       end
@@ -290,8 +289,5 @@ class TicTacToeGame
   end
 
   # valid play?
-
-  private 
-  attr_reader :gameBoard
 
 end
