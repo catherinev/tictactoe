@@ -157,7 +157,7 @@ class Player
   # end
 
   def smart_play
-    opponent = find_opponent
+    # opponent = find_opponent
     cell_num = nil
     # unless game_board.finished?
       if find_winning_cells != []
