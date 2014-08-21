@@ -41,38 +41,48 @@ describe Player do
     end
   end
 
-  describe '#find_winning_cell' do
-    it 'should return the number of the cell a player can play to immediately win' do
+  describe '#find_winning_cells' do
+    it 'should return the cells a player can play to immediately win' do
       example_board = TicTacToeBoard.new(["X", "X", "", "", "", "", "", "O", "O"])
       game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
-      expect(@player1.find_winning_cell).to be 2
-      expect(@player2.find_winning_cell).to be 6
+      expect(@player1.find_winning_cells).to eq [2]
+      expect(@player2.find_winning_cells).to eq [6]
     end
 
-    it 'should return nil if there is no winning cell' do
+    it 'should return an empty array if there is no winning cell' do
       example_board = @new_board
       game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
-      expect(@player1.find_winning_cell).to be nil
-      expect(@player2.find_winning_cell).to be nil
+      expect(@player1.find_winning_cells).to eq []
+      expect(@player2.find_winning_cells).to eq []
     end
   end
 
   describe '#find_forks' do
-    it 'should return an array with the cell numbers of all cells that are in multiple lines that contain winning cells' do
-      example_board = TicTacToeBoard.new(["X", "", "X", "", "O", "", "O", "", "X"])
+    it 'should return an array with the cell numbers of all cells that are in multiple lines that contain winning cells (opposite corners)' do
+      example_board = TicTacToeBoard.new(["X", "", "", "", "O", "", "", "", "X"])
       game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
-      expect(@player1.find_forks).to eq [2]
+      expect(@player1.find_forks).to eq [2, 6]
     end
-    it 'should return an array with the cell numbers of all cells that are in multiple lines that contain winning cells (part 2)' do
-      example_board = TicTacToeBoard.new(["O", "O", "", "X", "O", "", "", "", "X"])
+
+    it 'should return an array with the cell numbers of all cells that are in multiple lines that contain winning cells (center and corner)' do
+      example_board = TicTacToeBoard.new(["X", "", "", "", "X", "", "", "", "O"])
       game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
-      expect(@player2.find_forks).to eq [1]
+      expect(@player1.find_forks).to eq [1,2, 3, 6]
     end
+
+    it 'should return an array with the cell numbers of all cells that are in multiple lines that contain winning cells (only 1 fork)' do
+      example_board = TicTacToeBoard.new(["X", "O", "X", "", "", "", "", "", "O"])
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect(@player1.find_forks).to eq [6]
+    end
+
+    
     it 'should return an empty array when there are no such forks' do
       example_board = @unfinished_board
       game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
       expect(@player2.find_forks).to eq []
     end
+
   end
 
   describe '#find_opposite_corner' do
@@ -86,6 +96,27 @@ describe Player do
       example_board = TicTacToeBoard.new(["X", "", "O", "", "", "", "O", "", "X"])
       game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
       expect(@player1.find_opposite_corner).to eq nil
+    end
+  end
+
+  describe '#block fork' do
+    it 'should force the opponent to play a cell that will not create a fork (opposite corners)' do
+      example_board = TicTacToeBoard.new(["X", "", "", "", "O", "", "", "", "X"])
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect(@player2.block_fork([2,6])).to be 1
+    end
+
+    it 'should force the opponent to play a cell that will not create a fork (center and corner)' do
+      example_board = TicTacToeBoard.new(["X", "", "", "", "X", "", "", "", "O"])
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+      expect(@player2.block_fork([1, 2, 3, 6])).to be 2
+    end
+
+    it 'should force the opponent to play a cell that will not create a fork (only 1 fork)' do
+      example_board = TicTacToeBoard.new(["X", "O", "X", "", "", "", "", "", "O"])
+      game = TicTacToeGame.new({board: example_board, player1: @player1, player2: @player2})
+
+      expect(@player2.block_fork([6])).to be 4
     end
   end
 
