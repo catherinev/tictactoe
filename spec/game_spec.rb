@@ -39,22 +39,22 @@ describe TicTacToeGame do
   describe '#find_winner' do
     it 'should return X if X won' do
       game = TicTacToeGame.new({board: TicTacToeBoard.new(["X", "X", "X", "", "X", "O", "O", "", "O"]), player1: Player.new("X"), player2: Player.new("O")})
-       expect(game.winner).to eq("X")
+       expect(game.winning_marker).to eq("X")
     end
 
     it 'should return O if O won' do
       game = TicTacToeGame.new({board: TicTacToeBoard.new(["X", "X", "O", "X", "X", "O", "", "O", "O"]), player1: Player.new("X"), player2: Player.new("O")})
-      expect(game.winner).to eq("O")
+      expect(game.winning_marker).to eq("O")
     end
 
     it 'should return nil if the game is not finished' do
       game = TicTacToeGame.new({board: TicTacToeBoard.new(["X", "", "", "", "", "", "", "O", "X"]), player1: Player.new("X"), player2: Player.new("O")})
-      expect(game.winner).to eq(nil)
+      expect(game.winning_marker).to eq(nil)
     end
 
     it 'should return nil if the game is a tie' do
       game = TicTacToeGame.new({board: TicTacToeBoard.new(["X", "O", "X", "O", "O", "X", "X", "X", "O"]), player1: Player.new("X"), player2: Player.new("O")})
-      expect(game.winner).to eq(nil)
+      expect(game.winning_marker).to eq(nil)
     end
   end
 

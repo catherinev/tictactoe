@@ -111,9 +111,7 @@ class Player
         puts "random"
         return random_play
       end
-
-      return play_cell(cell_num)
-    # end
+    return play_cell(cell_num)
   end
 
   def find_winning_cells
@@ -200,5 +198,4 @@ class TicTacToeGame
     end
     nil
   end
-
 end
