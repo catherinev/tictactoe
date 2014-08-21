@@ -3,7 +3,7 @@ require_relative '../app/models/tictactoe'
 describe TicTacToeBoard do
 
   describe '#new_play' do
-    it "plays a new move" do
+    it "puts a new move on the board" do
       new_board = TicTacToeBoard.new(["X","O", "X", "", "", "", "", "", ""])
       new_board.new_play({cell_num: 4, marker: "O"})
       expect(new_board.board).to eq ["X","O", "X", "", "O", "", "", "", ""]

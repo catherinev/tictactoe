@@ -265,6 +265,7 @@ class Player
 end
 
 class TicTacToeGame 
+  attr_reader :winner
   def initialize(args)
     @gameBoard = args[:board]
     @player1 = args[:player1]
